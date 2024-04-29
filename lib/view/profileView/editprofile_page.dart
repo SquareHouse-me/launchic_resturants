@@ -8,13 +8,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
- import 'package:restaurant/generalWidgets/countrycode_widget.dart';
+import 'package:restaurant/generalWidgets/countrycode_widget.dart';
 import 'package:restaurant/generalWidgets/primary_button.dart';
 import 'package:restaurant/generalWidgets/primarytextfield.dart';
 import 'package:restaurant/res/colors.dart';
 import 'package:restaurant/res/typography.dart';
 import 'package:restaurant/viewModel/controllers/home_controller.dart';
- 
+
 class EditProfilePage extends StatefulWidget {
   EditProfilePage({super.key});
 
@@ -23,7 +23,6 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
- 
   final uc = Get.find<HomeController>();
   @override
   void initState() {
@@ -33,15 +32,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   loadData() {
     nameC.text = Hive.box('userBox').get('restaurantName').toString();
-   String numData = Hive.box('userBox').get('restaurantPhone').toString();
+    String numData = Hive.box('userBox').get('restaurantPhone').toString();
     email.text = Hive.box('userBox').get('restaurantEmail').toString();
     location.text = Hive.box('userBox').get('restaurantLocation').toString();
     availability.text =
         Hive.box('userBox').get('restaurantAvailability').toString();
     tablesSize.text = Hive.box('userBox').get('restaurantTables').toString();
-       numData.contains('null') ? phoneC.clear() : false;
-      
-      phoneC.text= phoneC.text.length<8?numData :   numData.substring(numData.length - 8);
+    numData.contains('null') ? phoneC.clear() : false;
+
+    phoneC.text = phoneC.text.length < 8
+        ? numData
+        : numData.substring(numData.length - 8);
     // dataDec.text = Hive.box('userBox').get('restaurantAvailability').toString();
   }
 
@@ -52,11 +53,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController location = TextEditingController();
   TextEditingController availability = TextEditingController();
   TextEditingController dataDec = TextEditingController();
-String countryCode = '965';
-  String countryEmoji = '🇰🇼';
+  RxString countryCode = '965'.obs;
+  RxString countryEmoji = '🇰🇼'.obs;
   final _formKey = GlobalKey<FormState>();
   String urlImage = '';
- 
+
   @override
   Widget build(BuildContext context) {
     final TextTheme appTextStyle = Theme.of(context).textTheme;
@@ -78,12 +79,11 @@ String countryCode = '965';
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h).copyWith(top: 0.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h)
+                .copyWith(top: 0.h),
             child: Form(
               key: _formKey,
               child: Column(children: [
-              
-                 
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -98,16 +98,21 @@ String countryCode = '965';
                     SizedBox(
                       height: 10.h,
                     ),
-                    PrimaryTextField(onTapOutside: (p0) {
-          FocusManager.instance.primaryFocus!.unfocus();
-        },
+                    PrimaryTextField(
+                        onTapOutside: (p0) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                        },
                         enabledBorder: AppColors.lightGreyColor,
                         focusedBorder: AppColors.blackColor,
                         hintColor: AppColors.darkGreyColor,
                         textInputAction: TextInputAction.next,
                         controller: nameC,
                         styleColor: AppColors.blackColor,
-                        hintText: 'nameHintText'.tr,textInputFormatter: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]+')),],
+                        hintText: 'nameHintText'.tr,
+                        textInputFormatter: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z\s]+')),
+                        ],
                         obscureText: false,
                         keyboardType: TextInputType.text,
                         prefixIcon: FadeIn(
@@ -136,9 +141,10 @@ String countryCode = '965';
                     SizedBox(
                       height: 10.h,
                     ),
-                    PrimaryTextField(onTapOutside: (p0) {
-          FocusManager.instance.primaryFocus!.unfocus();
-        },
+                    PrimaryTextField(
+                        onTapOutside: (p0) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                        },
                         enabledBorder: AppColors.lightGreyColor,
                         focusedBorder: AppColors.blackColor,
                         textInputAction: TextInputAction.next,
@@ -175,72 +181,68 @@ String countryCode = '965';
                     SizedBox(
                       height: 10.h,
                     ),
-                    CountryCodeWidget(
-                        hintColor: AppColors.darkGreyColor,
-                        titleColor: AppColors.blackColor,
-                        defaultTitleColor: AppColors.blackColor,
-                        styleColor: AppColors.blackColor,
-                        enabledBorder: AppColors.lightGreyColor,
-                        focusedBorder: AppColors.blackColor,
-                        iconData: AppColors.blackColor,
-                        controller: phoneC,
-                        
-                        hintText: 'phoneHintText'.tr,
-                        obscureText: false,
-                        keyboardType: TextInputType.phone,
-                        onTap: () {
-                          showCountryPicker(
-                            context: context,
-                            //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
-                            exclude: <String>['KN', 'MF'],
-                            favorite: <String>['SE'],
-                            //Optional. Shows phone code before the country name.
-                            showPhoneCode: true,
-                            onSelect: (Country country) {
-                              setState(() {
-                                countryCode = country.phoneCode;
-                                countryEmoji = country.flagEmoji;
-                              });
-                            },
-                            countryListTheme: CountryListThemeData(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(40.0),
-                                topRight: Radius.circular(40.0),
-                              ),
-                              // Optional. Styles the search field.
-                              inputDecoration: InputDecoration(
-                                labelText: 'searchLabelText'.tr,
-                                hintText: 'searchHintText'.tr,
-                                prefixIcon: const Icon(Icons.search),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:
-                                        const Color(0xFF8C98A8).withOpacity(0.2),
+                    Obx(() => CountryCodeWidget(
+                          hintColor: AppColors.darkGreyColor,
+                          titleColor: AppColors.blackColor,
+                          defaultTitleColor: AppColors.blackColor,
+                          styleColor: AppColors.blackColor,
+                          enabledBorder: AppColors.lightGreyColor,
+                          focusedBorder: AppColors.blackColor,
+                          iconData: AppColors.blackColor,
+                          controller: phoneC,
+                          hintText: 'phoneHintText'.tr,
+                          obscureText: false,
+                          keyboardType: TextInputType.phone,
+                          onTap: () {
+                            showCountryPicker(
+                              context: context,
+                              //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+                              exclude: <String>['KN', 'MF'],
+                              favorite: <String>['SE'],
+                              //Optional. Shows phone code before the country name.
+                              showPhoneCode: true,
+                              onSelect: (Country country) {
+                                countryCode.value = country.phoneCode;
+                                countryEmoji.value = country.flagEmoji;
+                              },
+                              countryListTheme: CountryListThemeData(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(40.0),
+                                  topRight: Radius.circular(40.0),
+                                ),
+                                // Optional. Styles the search field.
+                                inputDecoration: InputDecoration(
+                                  labelText: 'searchLabelText'.tr,
+                                  hintText: 'searchHintText'.tr,
+                                  prefixIcon: const Icon(Icons.search),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: const Color(0xFF8C98A8)
+                                          .withOpacity(0.2),
+                                    ),
                                   ),
                                 ),
+                                // Optional. Styles the text in the search field
+                                searchTextStyle: const TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 18,
+                                ),
                               ),
-                              // Optional. Styles the text in the search field
-                              searchTextStyle: const TextStyle(
-                                color: Colors.blue,
-                                fontSize: 18,
-                              ),
-                            ),
-                          );
-                        },
-                        countryCode: countryCode,
-                        countryEmoji: countryEmoji,
-                        validator: (val) {
-                          if (val!.isEmpty) {
-                            return 'validatorText'.tr;
-                          } else if (val.length > 8) {
-                          return 'phoneValidatorText'.tr;
-                        }else if(val.length < 8)
-                        {
-                          return 'phoneShortValidatorText'.tr;
-                        }
-                          return null;
-                        },
-                      ),
+                            );
+                          },
+                          countryCode: countryCode.value,
+                          countryEmoji: countryEmoji.value,
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'validatorText'.tr;
+                            } else if (val.length > 8) {
+                              return 'phoneValidatorText'.tr;
+                            } else if (val.length < 8) {
+                              return 'phoneShortValidatorText'.tr;
+                            }
+                            return null;
+                          },
+                        )),
                     FadeIn(
                       child: Text(
                         'Table Size'.tr,
@@ -252,9 +254,10 @@ String countryCode = '965';
                     SizedBox(
                       height: 10.h,
                     ),
-                    PrimaryTextField(onTapOutside: (p0) {
-          FocusManager.instance.primaryFocus!.unfocus();
-        },
+                    PrimaryTextField(
+                        onTapOutside: (p0) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                        },
                         enabledBorder: AppColors.lightGreyColor,
                         focusedBorder: AppColors.blackColor,
                         textInputAction: TextInputAction.next,
@@ -288,9 +291,10 @@ String countryCode = '965';
                     SizedBox(
                       height: 10.h,
                     ),
-                    PrimaryTextField(onTapOutside: (p0) {
-          FocusManager.instance.primaryFocus!.unfocus();
-        },
+                    PrimaryTextField(
+                        onTapOutside: (p0) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                        },
                         enabledBorder: AppColors.lightGreyColor,
                         focusedBorder: AppColors.blackColor,
                         textInputAction: TextInputAction.next,
@@ -324,9 +328,10 @@ String countryCode = '965';
                     SizedBox(
                       height: 10.h,
                     ),
-                    PrimaryTextField(onTapOutside: (p0) {
-          FocusManager.instance.primaryFocus!.unfocus();
-        },
+                    PrimaryTextField(
+                        onTapOutside: (p0) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                        },
                         enabledBorder: AppColors.lightGreyColor,
                         focusedBorder: AppColors.blackColor,
                         textInputAction: TextInputAction.next,
@@ -349,34 +354,7 @@ String countryCode = '965';
                           }
                           return null;
                         }),
-                    // FadeIn(
-                    //   child: Text(
-                    //     'Description'.tr,
-                    //     style: CustomStyle.textMedium14.copyWith(
-                    //       color: AppColors.blackColor,
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: 10.h,
-                    // ),
-                    // PrimaryTextField(
-                    //     enabledBorder: AppColors.lightGreyColor,
-                    //     focusedBorder: AppColors.blackColor,
-                    //     textInputAction: TextInputAction.next,
-                    //     controller: dataDec,
-                    //     maxLength: 3,
-                    //     hintText: 'description'.tr,
-                    //     hintColor: AppColors.darkGreyColor,
-                    //     obscureText: false,
-                    //     styleColor: AppColors.blackColor,
-                    //     keyboardType: TextInputType.emailAddress,
-                    //     validator: (val) {
-                    //       if (val!.isEmpty) {
-                    //         return 'validatorText'.tr;
-                    //       }
-                    //       return null;
-                    //     }),
+                     
                   ],
                 ),
                 Obx(() => FadeInUp(
@@ -390,12 +368,7 @@ String countryCode = '965';
                               }
                             : () async {
                                 if (_formKey.currentState!.validate()) {
-                                  // if (_pickedImage == null) {
-                                  //   Get.snackbar(
-                                  //       backgroundColor: AppColors.whiteLightColor,
-                                  //       'Warning',
-                                  //       'please select the profile image');
-                                  // } else
+                                   
                                   if (countryCode.isEmpty) {
                                     Get.snackbar(
                                         backgroundColor:
@@ -405,7 +378,8 @@ String countryCode = '965';
                                   } else {
                                     await uc.updateUserData(
                                       name: nameC.text.trim(),
-                                      phoneNumber: phoneC.text.trim().toString(),
+                                      phoneNumber:
+                                          phoneC.text.trim().toString(),
                                       email: email.text.trim().toString(),
                                       availability:
                                           availability.text.trim().toString(),
@@ -425,7 +399,7 @@ String countryCode = '965';
                                     backgroundColor: Colors.transparent,
                                     strokeWidth:
                                         2.0, // Adjust the thickness of the indicator
-      
+
                                     valueColor: AlwaysStoppedAnimation<Color>(
                                         AppColors.whiteColor),
                                   ),

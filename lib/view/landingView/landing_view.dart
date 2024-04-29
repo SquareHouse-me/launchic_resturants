@@ -1,5 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,10 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:restaurant/animation/auto_shake_animation.dart';
-import 'package:restaurant/routers/routers_name.dart';
-import 'package:restaurant/view/contactView/contact_us.dart';
-import 'package:restaurant/view/contactView/contact_us_view.dart';
-import 'package:restaurant/view/eventView/presentEvents/present_reservation.dart';
+ import 'package:restaurant/view/contactView/contact_us.dart';
+ import 'package:restaurant/view/eventView/presentEvents/present_reservation.dart';
 import 'package:restaurant/view/profileView/profile_view.dart';
 import 'package:restaurant/res/colors.dart';
 import 'package:restaurant/res/icons.dart';
@@ -25,7 +22,7 @@ class LandingView extends StatefulWidget {
 }
 
 class _LandingViewState extends State<LandingView> {
-  RxInt _currentIndex = 0.obs;
+  int _currentIndex = 0;
   final HomeController homeC = Get.find<HomeController>();
 
   List<Widget> pages = [
@@ -59,8 +56,9 @@ class _LandingViewState extends State<LandingView> {
                   InkWell(
                     splashColor: Colors.transparent,
                     onTap: () async {
-                      _currentIndex.value = 1;
-
+                      setState(() {
+                        _currentIndex = 1;
+                      });
                       //   FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
                       //  await firebaseFirestore.collection('myUser').doc('56756756').set({'data':'tyrtyt'});
                     },
@@ -82,10 +80,10 @@ class _LandingViewState extends State<LandingView> {
                 ],
               )
             : null,
-        body: Obx(() => Padding(
-              padding: EdgeInsets.only(bottom: 60.h),
-              child: pages[_currentIndex.value],
-            )),
+        body: Padding(
+          padding: EdgeInsets.only(bottom: 60.h),
+          child: pages[_currentIndex],
+        ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
@@ -101,100 +99,100 @@ class _LandingViewState extends State<LandingView> {
           child: Padding(
             padding: const EdgeInsets.all(12.0)
                 .copyWith(left: 0.w, right: 0.w, bottom: 0.w),
-            child: Obx(() => BottomNavigationBar(
-                          showSelectedLabels: true,
-                          showUnselectedLabels: true,
-                          selectedItemColor: AppColors.primaryColor,
-                          unselectedItemColor: AppColors.blackColor,
-                          backgroundColor: AppColors.whiteColor,
-                          elevation: 0,
-                          iconSize: 24.sp,
-                          // selectedLabelStyle: textTheme.bodySmall!
-                          //     .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w600),
-                          // unselectedLabelStyle: textTheme.bodySmall!
-                          //     .copyWith(fontSize: 12.sp, fontWeight: FontWeight.w400),
-                          currentIndex: _currentIndex.value,
-                          onTap: (value) {
-                           
-                              _currentIndex.value = value;
-                            
-                          },
-                          type: BottomNavigationBarType.fixed,
-                          items: [
-                            BottomNavigationBarItem(
-                              icon: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                child: SvgPicture.asset(
-                                  AppIcons.homeOutline,
-                                  color: AppColors.lightGreyColor,
-                                ),
-                              ),
-                              label: '',
-                              activeIcon: CustomShakeAnimation(
-                                begin: '-5.0',
-                                end: '5.0',
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                                  child: SvgPicture.asset(
-                                    AppIcons.homeFilltor,
-                                    color: AppColors.blackColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            BottomNavigationBarItem(
-                              icon: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                child: SvgPicture.asset(
-                                  AppIcons.calendarOutline,
-                                  color: AppColors.lightGreyColor,
-                                ),
-                              ),
-                              label: '',
-                              activeIcon: CustomShakeAnimation(
-                                begin: '-5.0',
-                                end: '5.0',
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                                  child: SvgPicture.asset(
-                                    AppIcons.calendarFill,
-                                    color: AppColors.blackColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            BottomNavigationBarItem(
-                              icon: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                child: SvgPicture.asset(
-                                  AppIcons.PhoneIcon,
-                                  color: AppColors.lightGreyColor,
-                                ),
-                              ),
-                              label: '',
-                              activeIcon: CustomShakeAnimation(
-                                begin: '-5.0',
-                                end: '5.0',
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                                  child: SvgPicture.asset(
-                                    AppIcons.PhoneIcon,
-                                    color: AppColors.lightGreyColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            BottomNavigationBarItem(
-                              icon: Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                child: SvgPicture.asset(
-                                  AppIcons.profileOutline,
-                                  color: AppColors.lightGreyColor,
-                                ),
-                              ),
-                              label: '',
-                              activeIcon: CustomShakeAnimation(
-                                begin: ')-5.0',
+            child: BottomNavigationBar(
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              selectedItemColor: AppColors.primaryColor,
+              unselectedItemColor: AppColors.blackColor,
+              backgroundColor: AppColors.whiteColor,
+              elevation: 0,
+              iconSize: 24.sp,
+              // selectedLabelStyle: textTheme.bodySmall!
+              //     .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w600),
+              // unselectedLabelStyle: textTheme.bodySmall!
+              //     .copyWith(fontSize: 12.sp, fontWeight: FontWeight.w400),
+              currentIndex: _currentIndex,
+              onTap: (value) {
+                setState(() {
+                  _currentIndex = value;
+                });
+              },
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    child: SvgPicture.asset(
+                      AppIcons.homeOutline,
+                      color: AppColors.lightGreyColor,
+                    ),
+                  ),
+                  label: '',
+                  activeIcon: CustomShakeAnimation(
+                    begin: '-5.0',
+                    end: '5.0',
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      child: SvgPicture.asset(
+                        AppIcons.homeFilltor,
+                        color: AppColors.blackColor,
+                      ),
+                    ),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  icon: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    child: SvgPicture.asset(
+                      AppIcons.calendarOutline,
+                      color: AppColors.lightGreyColor,
+                    ),
+                  ),
+                  label: '',
+                  activeIcon: CustomShakeAnimation(
+                    begin: '-5.0',
+                    end: '5.0',
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      child: SvgPicture.asset(
+                        AppIcons.calendarFill,
+                        color: AppColors.blackColor,
+                      ),
+                    ),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  icon: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    child: SvgPicture.asset(
+                      AppIcons.PhoneIcon,
+                      color: AppColors.lightGreyColor,
+                    ),
+                  ),
+                  label: '',
+                  activeIcon: CustomShakeAnimation(
+                    begin: '-5.0',
+                    end: '5.0',
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      child: SvgPicture.asset(
+                        AppIcons.PhoneIcon,
+                        color: AppColors.lightGreyColor,
+                      ),
+                    ),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  icon: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    child: SvgPicture.asset(
+                      AppIcons.profileOutline,
+                      color: AppColors.lightGreyColor,
+                    ),
+                  ),
+                  label: '',
+                  activeIcon: CustomShakeAnimation(
+                    begin: '-5.0',
                     end: '5.0',
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -210,6 +208,6 @@ class _LandingViewState extends State<LandingView> {
           ),
         ),
       ),
-    ));
+    );
   }
 }
