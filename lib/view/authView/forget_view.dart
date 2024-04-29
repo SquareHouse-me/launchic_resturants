@@ -12,16 +12,13 @@ import 'package:restaurant/res/icons.dart';
 import 'package:restaurant/res/typography.dart';
 import 'package:restaurant/viewModel/controllers/auth_controller.dart';
 
-class ForgetView extends StatefulWidget {
-  const ForgetView({super.key});
+class ForgetView extends StatelessWidget {
+    ForgetView({super.key});
 
-  @override
-  State<ForgetView> createState() => _ForgetViewState();
-}
-
-class _ForgetViewState extends State<ForgetView> {
   final emailController = TextEditingController();
+
   final authController = Get.find<AuthController>();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -62,7 +59,7 @@ class _ForgetViewState extends State<ForgetView> {
                   ),
                   child: FadeInDown(
                     child: Text(
-                      'forgetText'.tr,
+                      'forgetPasswordText'.tr,
                       style: CustomStyle.textBold36.copyWith(
                         color: AppColors.whiteColor,
                         fontWeight: FontWeight.w700,

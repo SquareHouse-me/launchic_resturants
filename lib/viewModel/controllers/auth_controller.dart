@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:restaurant/data/repositories/auth_repo.dart';
 import 'package:restaurant/data/status.dart';
 import 'package:restaurant/res/colors.dart';
+import 'package:restaurant/res/icons.dart';
 import 'package:restaurant/routers/routers_name.dart';
 import 'package:restaurant/utils/utils.dart';
  import 'package:restaurant/viewModel/controllers/home_controller.dart';
@@ -12,6 +13,101 @@ import 'package:restaurant/viewModel/services/auth_services.dart';
 import 'package:restaurant/viewModel/services/notification_services.dart';
 
 class AuthController extends GetxController {
+
+
+
+RxBool obscurePassword = true.obs;
+  RxBool obscureConfirmPassword = true.obs;
+  RxString iconPassword = AppIcons.eyeIcons.obs;
+   RxString iconCPassword = AppIcons.eyeIcons.obs;
+     RxString iconConfirmPassword = AppIcons.eyeIcons.obs;
+     
+///PhoneVerificationView///////////
+   RxString countryCode = '965'.obs;
+  RxString countryEmoji = '🇰🇼'.obs;
+  RxString pinCode = " ".obs;
+  RxBool isCompleted = false.obs;
+   RxInt timerDuration = 60.obs;
+  RxBool isTimerActive = false.obs;
+
+
+
+   void startTimer() {
+    if (! isTimerActive.value) {
+       isTimerActive.value = true;
+      updateTimer();
+    }
+  }
+
+  void updateTimer() {
+    Future.delayed(const Duration(seconds: 1), () {
+      if ( timerDuration.value > 0) {
+        
+          
+             timerDuration.value -= 1;
+          
+          updateTimer();
+         
+      } else {
+       isTimerActive.value = false;
+        resetPinCode();
+      }
+    });
+  }
+
+  void resetPinCode() {
+     
+      
+       pinCode.value = "";
+        timerDuration.value = 60;
+       
+    
+  }
+  Future<void> resendEmailVerifyCodeMethod({
+    required String resetCodeToken,
+  }) async {
+    try {
+      setIsLoading(true);
+      final mapData = {
+        "reset_code_token": resetCodeToken,
+      };
+      await _authRepo.resendCodeMethod(data: mapData).then((value) {
+        if (value['statusCode'].toString() == '200') {
+          setIsLoading(false);
+          _authServices.resetCodeTokenSave(responseData: value['data']);
+          fluttersToast(
+              msg: value['data']['message'],
+              bgColor: AppColors.primaryColor,
+              textColor: AppColors.darkGreyColor);
+
+          // Get.offNamed(RouteName.sendEmailCodeView, arguments: [
+          //   resetCodeToken,
+          // ]);
+        } else {
+          log('else ' + value.toString());
+          fluttersToast(
+              msg: value['message'],
+              bgColor: AppColors.primaryColor,
+              textColor: AppColors.darkGreyColor);
+          setIsLoading(false);
+        }
+      }).onError((error, stackTrace) {
+        setIsLoading(false);fluttersToast(
+            msg: 'network error',
+            bgColor: AppColors.primaryColor,
+            textColor: AppColors.darkGreyColor);
+        setError(error.toString());
+      });
+    } catch (e) {
+      setIsLoading(false);fluttersToast(
+            msg: 'network error',
+            bgColor: AppColors.primaryColor,
+            textColor: AppColors.darkGreyColor);
+      log("error from resend code Method :" + e.toString());
+    }
+  }
+
+  ///////////////////////
   Rx<AppStatus> appStatus = AppStatus.LOADING.obs;
   AuthServices _authServices = AuthServices();
   RxBool isLoading = false.obs;
@@ -84,10 +180,10 @@ NotificationServices services = NotificationServices();
           log('${value['message']} before checking');
            setIsLoading(false);
 Hive.box('userBox').put('token', '');
-          fluttersToast(
-              msg: 'Session has been expired please login again',
-              bgColor: AppColors.primaryColor,
-              textColor: AppColors.darkGreyColor);
+          // fluttersToast(
+          //     msg: 'Session has been expired please login again',
+          //     bgColor: AppColors.primaryColor,
+          //     textColor: AppColors.darkGreyColor);
           _authServices.logoutUserData();
           
           Get.delete<HomeController>(force: true);

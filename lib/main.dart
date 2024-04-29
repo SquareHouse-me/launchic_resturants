@@ -13,7 +13,7 @@ import 'package:restaurant/res/colors.dart';
 import 'package:restaurant/routers/routers.dart';
 import 'package:restaurant/view/authView/authwrapper.dart';
 import 'package:restaurant/view/langauges/langauges.dart';
-import 'package:restaurant/view/onBoardingView/onboard_view.dart';
+ import 'package:restaurant/view/onBoardingView/onboard_view.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:restaurant/viewModel/controllers/auth_controller.dart';
 import 'package:firebase_core/firebase_core.dart';

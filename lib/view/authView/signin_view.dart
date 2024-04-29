@@ -27,7 +27,7 @@ class SignInView extends StatefulWidget {
 class _SignInViewState extends State<SignInView> {
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
-  final authController = Get.find<AuthController>();
+  final auth = Get.find<AuthController>();
   final _formKey = GlobalKey<FormState>();
   String iconPassword = AppIcons.eyeIcons;
   bool obscurePassword = true;
@@ -117,60 +117,60 @@ class _SignInViewState extends State<SignInView> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    PrimaryTextField(onTapOutside: (p0) {
-        FocusManager.instance.primaryFocus!.unfocus();
-      },
-                      enabledBorder: AppColors.lightGreyColor,
-                      focusedBorder: AppColors.whiteColor,
-                      textInputAction: TextInputAction.next,
-                      controller: passwordController,
-                      hintText: 'passwordText'.tr,
-                      obscureText: obscurePassword,
-                      keyboardType: TextInputType.text,
-                      prefixIcon: FadeIn(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: SvgPicture.asset(
-                            AppIcons.lockIcons,
-                            width: 12.w,
-                            height: 12.h,
-                          ),
-                        ),
-                      ),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            obscurePassword = !obscurePassword;
-
-                            if (obscurePassword) {
-                              iconPassword = AppIcons.eyeIcons;
-                            } else {
-                              iconPassword = AppIcons.eyeOpenIcon;
-                            }
-                          });
-                        },
-                        child: FadeIn(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SvgPicture.asset(
-                              iconPassword,
-                              width: 12.w,
-                              height: 12.h,
-                              color: AppColors.creamyColor,
+                    Obx(() => PrimaryTextField(
+                          onTapOutside: (p0) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                          },
+                          enabledBorder: AppColors.lightGreyColor,
+                          focusedBorder: AppColors.whiteColor,
+                          textInputAction: TextInputAction.next,
+                          controller: passwordController,
+                          hintText: 'passwordText'.tr,
+                          obscureText: auth.obscurePassword.value,
+                          keyboardType: TextInputType.text,
+                          prefixIcon: FadeIn(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: SvgPicture.asset(
+                                AppIcons.lockIcons,
+                                width: 12.w,
+                                height: 12.h,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return 'validatorText'.tr;
-                        }
-                        if (val.length < 8) {
-                          return 'charactersPassHintText'.tr;
-                        }
-                        return null;
-                      },
-                    ),
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              auth.obscurePassword.value =
+                                  !auth.obscurePassword.value;
+
+                              if (auth.obscurePassword.value) {
+                                auth.iconPassword.value = AppIcons.eyeIcons;
+                              } else {
+                                auth.iconPassword.value = AppIcons.eyeOpenIcon;
+                              }
+                            },
+                            child: FadeIn(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SvgPicture.asset(
+                                  auth.iconPassword.value,
+                                  width: 12.w,
+                                  height: 12.h,
+                                  color: AppColors.creamyColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'validatorText'.tr;
+                            }
+                            if (val.length < 8) {
+                              return 'charactersPassHintText'.tr;
+                            }
+                            return null;
+                          },
+                        )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -196,19 +196,19 @@ class _SignInViewState extends State<SignInView> {
                           duration: const Duration(milliseconds: 800),
                           child: PrimaryButton(
                             elevation: 0,
-                            onTap: authController.isLoading.value
+                            onTap: auth.isLoading.value
                                 ? () {
                                     log('message');
                                   }
                                 : () async {
                                     if (_formKey.currentState!.validate()) {
-                                      await authController.loginMethod(
+                                      await auth.loginMethod(
                                           email: emailController.text.trim(),
                                           password:
                                               passwordController.text.trim());
                                     }
                                   },
-                            childWidget: authController.isLoading.value
+                            childWidget: auth.isLoading.value
                                 ? SizedBox(
                                     height: 20.h,
                                     width: 20.w,
