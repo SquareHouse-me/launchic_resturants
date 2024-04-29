@@ -22,12 +22,11 @@ class ResetPasswordView extends StatefulWidget {
 class _ResetPasswordViewState extends State<ResetPasswordView> {
   final passwordController = TextEditingController();
   final confirmController = TextEditingController();
-  String iconPassword = AppIcons.eyeIcons;
+
   final _formKey = GlobalKey<FormState>();
 
-  String iconConfirmPassword = AppIcons.eyeIcons;
-  bool obscurePassword = true;
-  bool obscureConfirmPassword = true;
+
+
   String token = '', codeToken = '';
   @override
   void initState() {
@@ -37,7 +36,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     codeToken = Get.arguments[1];
   }
 
-  final authController = Get.find<AuthController>();
+  final auth = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,60 +116,60 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    PrimaryTextField(onTapOutside: (p0) {
-        FocusManager.instance.primaryFocus!.unfocus();
-      },
-                      enabledBorder: AppColors.lightGreyColor,
-                      focusedBorder: AppColors.whiteColor,
-                      textInputAction: TextInputAction.next,
-                      controller: passwordController,
-                      hintText: 'passwordText'.tr,
-                      obscureText: obscurePassword,
-                      keyboardType: TextInputType.text,
-                      prefixIcon: FadeIn(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: SvgPicture.asset(
-                            AppIcons.lockIcons,
-                            width: 12.w,
-                            height: 12.h,
-                          ),
-                        ),
-                      ),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            obscurePassword = !obscurePassword;
-
-                            if (obscurePassword) {
-                              iconPassword = AppIcons.eyeIcons;
-                            } else {
-                              iconPassword = AppIcons.eyeOpenIcon;
-                            }
-                          });
-                        },
-                        child: FadeIn(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SvgPicture.asset(
-                              iconPassword,
-                              width: 12.w,
-                              height: 12.h,
-                              color: AppColors.creamyColor,
+                    Obx(() => PrimaryTextField(
+                          onTapOutside: (p0) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                          },
+                          enabledBorder: AppColors.lightGreyColor,
+                          focusedBorder: AppColors.whiteColor,
+                          textInputAction: TextInputAction.next,
+                          controller: passwordController,
+                          hintText: 'passwordText'.tr,
+                          obscureText: auth.obscurePassword.value,
+                          keyboardType: TextInputType.text,
+                          prefixIcon: FadeIn(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: SvgPicture.asset(
+                                AppIcons.lockIcons,
+                                width: 12.w,
+                                height: 12.h,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return 'validatorText'.tr;
-                        }
-                        if (val.length < 8) {
-                          return 'charactersPassHintText'.tr;
-                        }
-                        return null;
-                      },
-                    ),
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              auth.obscurePassword.value =
+                                  !auth.obscurePassword.value;
+
+                              if (auth.obscurePassword.value) {
+                                auth.iconPassword.value = AppIcons.eyeIcons;
+                              } else {
+                                auth.iconPassword.value = AppIcons.eyeOpenIcon;
+                              }
+                            },
+                            child: FadeIn(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SvgPicture.asset(
+                                  auth.iconPassword.value,
+                                  width: 12.w,
+                                  height: 12.h,
+                                  color: AppColors.creamyColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'validatorText'.tr;
+                            }
+                            if (val.length < 8) {
+                              return 'charactersPassHintText'.tr;
+                            }
+                            return null;
+                          },
+                        )),
                     FadeIn(
                       child: Text(
                         'confirmPassFieldText'.tr,
@@ -182,60 +181,60 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    PrimaryTextField(onTapOutside: (p0) {
-        FocusManager.instance.primaryFocus!.unfocus();
-      },
-                      enabledBorder: AppColors.lightGreyColor,
-                      focusedBorder: AppColors.whiteColor,
-                      textInputAction: TextInputAction.next,
-                      controller: confirmController,
-                      hintText: 'repeatPassHintText'.tr,
-                      obscureText: obscureConfirmPassword,
-                      keyboardType: TextInputType.text,
-                      prefixIcon: FadeIn(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: SvgPicture.asset(
-                            AppIcons.lockIcons,
-                            width: 12.w,
-                            height: 12.h,
-                          ),
-                        ),
-                      ),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            obscureConfirmPassword = !obscureConfirmPassword;
-
-                            if (obscureConfirmPassword) {
-                              iconConfirmPassword = AppIcons.eyeIcons;
-                            } else {
-                              iconConfirmPassword = AppIcons.eyeOpenIcon;
-                            }
-                          });
-                        },
-                        child: FadeIn(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SvgPicture.asset(
-                              iconConfirmPassword,
-                              width: 12.w,
-                              height: 12.h,
-                              color: AppColors.creamyColor,
+                    Obx(() => PrimaryTextField(
+                          onTapOutside: (p0) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                          },
+                          enabledBorder: AppColors.lightGreyColor,
+                          focusedBorder: AppColors.whiteColor,
+                          textInputAction: TextInputAction.next,
+                          controller: confirmController,
+                          hintText: 'repeatPassHintText'.tr,
+                          obscureText: auth.obscureConfirmPassword.value,
+                          keyboardType: TextInputType.text,
+                          prefixIcon: FadeIn(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: SvgPicture.asset(
+                                AppIcons.lockIcons,
+                                width: 12.w,
+                                height: 12.h,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return 'validatorText'.tr;
-                        }
-                        if (val != passwordController.text) {
-                          return 'passwordMatchText'.tr;
-                        }
-                        return null;
-                      },
-                    ),
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              auth.obscureConfirmPassword.value =
+                                  !auth.obscureConfirmPassword.value;
+
+                              if (auth.obscureConfirmPassword.value) {
+                                auth.iconConfirmPassword.value = AppIcons.eyeIcons;
+                              } else {
+                               auth. iconConfirmPassword.value = AppIcons.eyeOpenIcon;
+                              }
+                            },
+                            child: FadeIn(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SvgPicture.asset(
+                                  auth.iconConfirmPassword.value,
+                                  width: 12.w,
+                                  height: 12.h,
+                                  color: AppColors.creamyColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'validatorText'.tr;
+                            }
+                            if (val != passwordController.text) {
+                              return 'passwordMatchText'.tr;
+                            }
+                            return null;
+                          },
+                        )),
                     SizedBox(
                       height: 4.h,
                     ),
@@ -244,13 +243,13 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           duration: const Duration(milliseconds: 800),
                           child: PrimaryButton(
                             elevation: 0,
-                            onTap: authController.isLoading.value
+                            onTap: auth.isLoading.value
                                 ? () async {
                                     log('message');
                                   }
                                 : () async {
                                     if (_formKey.currentState!.validate()) {
-                                      await authController.resetPasswordMethod(
+                                      await auth.resetPasswordMethod(
                                           resetCodeToken: token,
                                           resetCode: codeToken,
                                           password: passwordController.text
@@ -260,7 +259,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                               confirmController.text.trim());
                                     }
                                   },
-                            childWidget: authController.isLoading.value
+                            childWidget: auth.isLoading.value
                                 ? SizedBox(
                                     height: 20.h,
                                     width: 20.w,

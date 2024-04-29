@@ -49,7 +49,7 @@ class AppRoutes {
             page: () => ChangePasswordPage()),
         GetPage(
           name: RouteName.forgetView,
-          page: () => const ForgetView(),
+          page: () =>   ForgetView(),
         ),
         GetPage(
           name: RouteName.sendEmailCodeView,

@@ -348,8 +348,7 @@ class _DashBoardViewState extends State<DashBoardView> {
                               }).toList(),
                             ),
                           )
-                    : reservationController.eventAppStatus.value ==
-                        AppStatus.UNAUTHORIZED? Center(child: SvgPicture.asset(AppIcons.unAuthorized,width: 200.w,height: 240.h,),): Center(
+                    :  Center(
                         child: Padding(
                           padding: EdgeInsets.all(8.0).copyWith(top: 200.h),
                           child: Column(
@@ -382,7 +381,7 @@ class _DashBoardViewState extends State<DashBoardView> {
                                     onPressed: () async {
                                       await reservationController
                                           .getAllReservationByBookingDate();
-                                    },
+                                       reservationController.getAllReservation(); },
                                     icon: Icon(
                                       Icons.refresh_sharp,
                                     ),

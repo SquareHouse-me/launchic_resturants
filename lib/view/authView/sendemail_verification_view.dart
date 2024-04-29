@@ -24,22 +24,19 @@ class SendEmailCodeView extends StatefulWidget {
 }
 
 class _SendEmailCodeViewState extends State<SendEmailCodeView> {
-  String pinCode = "";
-  int timerDuration = 60;
-  bool isTimerActive = false;
-  bool isCompleted = false;
+   
   String email = 'helloword@gmail.com';
-  String resetToken = '';
+  String resetToken = '';  TextEditingController pinCodeC = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     email = Get.arguments[0];
     resetToken = Hive.box('userBox').get('reset_code_token').toString();
-    startTimer();
+   auth. startTimer();
   }
 
-  final authController = Get.find<AuthController>();
+  final auth = Get.find<AuthController>();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -93,75 +90,76 @@ class _SendEmailCodeViewState extends State<SendEmailCodeView> {
               ),
               Center(
                 child: PinCodeTextField(
-                  onSaved: (pin) {
-                    if (kDebugMode) {
-                      print("Pin entered: $pin");
-                    }
-                  },
-                  onChanged: (pin) {
-                    setState(() {
-                      pinCode = pin;
-                    });
-                  },
-                  hintStyle: CustomStyle.textRegular12
-                      .copyWith(color: AppColors.whiteColor),
-                  autoFocus: true,
-                  animationCurve: Curves.bounceIn,
-                  cursorColor: AppColors.whiteColor,
-                  textStyle: TextStyle(
-                    color: AppColors.whiteColor,
-                    fontSize: 30.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  showCursor: true,
-                  keyboardType: TextInputType.number,
-                  onCompleted: (value) {
-                    setState(() {
-                      isCompleted = true;
-                    });
-                  },
-                  pinTheme: PinTheme(
-                      activeColor: AppColors.creamyColor,
-                      borderWidth: 1.w,
-                      inactiveBorderWidth: 1.w,
-                      inactiveColor: AppColors.creamyColor,
-                      borderRadius: BorderRadius.circular(13.r),
-                      activeBorderWidth: 1.w,
-                      activeFillColor: AppColors.creamyColor,
-                      disabledColor: AppColors.creamyColor,
-                      shape: PinCodeFieldShape.box,
-                      inactiveFillColor: AppColors.creamyColor,
-                      selectedFillColor: AppColors.whiteColor,
-                      selectedColor: AppColors.whiteColor,
-                      selectedBorderWidth: 1.w,
-                      errorBorderWidth: 1.w,
-                      errorBorderColor: Colors.redAccent,
-                      disabledBorderWidth: 1.w,
-                      fieldHeight: 64.h,
-                      fieldWidth: 69.w),
-                  backgroundColor: Colors.transparent,
-                  appContext: context,
-                  length: 4,
+                onSaved: (pin) {
+                  if (kDebugMode) {
+                    print("Pin entered: $pin");
+                  }
+                },
+                onChanged: (pin) {
+                   
+                    auth.pinCode.value = pin;
+                  
+                },
+                hintStyle: CustomStyle.textRegular12
+                    .copyWith(color: AppColors.whiteColor),
+                autoFocus: false,
+                animationCurve: Curves.bounceIn,
+                cursorColor: AppColors.whiteColor,
+                textStyle: CustomStyle.textRegular36.copyWith(
+                  color: AppColors.whiteColor,
                 ),
+                showCursor: true,
+                autoUnfocus: true,
+                autoDismissKeyboard: true,
+                controller:  pinCodeC,
+                keyboardType: TextInputType.number,
+                onCompleted: (value) {
+                  
+                    auth.isCompleted.value = true;
+                 
+                },
+                pinTheme: PinTheme(
+                  activeColor: AppColors.creamyColor,
+                  borderWidth: 1.w,
+                  inactiveBorderWidth: 1.w,
+                  inactiveColor: AppColors.creamyColor,
+                  borderRadius: BorderRadius.circular(13.r),
+                  activeBorderWidth: 1.w,
+                  activeFillColor: AppColors.creamyColor,
+                  disabledColor: AppColors.creamyColor,
+                  shape: PinCodeFieldShape.box,
+                  inactiveFillColor: AppColors.creamyColor,
+                  selectedFillColor: AppColors.whiteColor,
+                  selectedColor: AppColors.whiteColor,
+                  selectedBorderWidth: 1.w,
+                  errorBorderWidth: 1.w,
+                  errorBorderColor: Colors.redAccent,
+                  disabledBorderWidth: 1.w,
+                  fieldHeight: 64.h,
+                  fieldWidth: 69.w,
+                ),
+                backgroundColor: Colors.transparent,
+                appContext: context,
+                length: 4,
+              ),
               ),
               SizedBox(height: 25.h),
-              isCompleted
-                  ? SlideTransitionAnimation(
+               Obx(() => auth.isCompleted.value?SlideTransitionAnimation(
                       begin: const Offset(1.0, 1.0),
                       end: Offset.zero,
                       child: Obx(() => FadeInUp(
                             duration: const Duration(milliseconds: 800),
                             child: PrimaryButton(
                               elevation: 0,
-                              onTap: authController.isLoading.value
+                              onTap: auth.isLoading.value
                                   ? () {
                                       log('message');
                                     }
                                   : () async {
                                       Get.toNamed(RouteName.resetPasswordView,
-                                          arguments: [resetToken, pinCode]);
+                                          arguments: [resetToken, auth.pinCode.value]);
                                     },
-                              childWidget: authController.isLoading.value
+                              childWidget: auth.isLoading.value
                                   ? SizedBox(
                                       height: 20.h,
                                       width: 20.w,
@@ -192,23 +190,23 @@ class _SendEmailCodeViewState extends State<SendEmailCodeView> {
                               height: 48.h,
                             ),
                           )),
-                    )
-                  : Center(
+                    ):Center(
                       child: InkWell(
                         onTap: () async {
-                          startTimer();
-                          await authController.resendCodeMethod(
+                         auth. startTimer();
+                          await auth.resendEmailVerifyCodeMethod(
                             resetCodeToken: resetToken,
                           );
                         },
                         child: Text(
-                          '${'codeAgainText'.tr} $timerDuration',
-                          style: CustomStyle.textMedium14.copyWith(
-                            color: AppColors.light30GreyColor,
-                          ),
+                        'Send code again 00:${auth.timerDuration.value}',
+                        style: CustomStyle.textRegular12.copyWith(
+                          color: AppColors.whiteColor,
                         ),
                       ),
-                    ),
+                      ),
+                    ))
+                     
             ],
           ),
         ),
@@ -216,35 +214,6 @@ class _SendEmailCodeViewState extends State<SendEmailCodeView> {
     );
   }
 
-  void startTimer() {
-    if (!isTimerActive) {
-      isTimerActive = true;
-      updateTimer();
-    }
-  }
 
-  void updateTimer() {
-    Future.delayed(const Duration(seconds: 1), () {
-      if (timerDuration > 0) {
-        if (mounted) {
-          setState(() {
-            timerDuration -= 1;
-          });
-          updateTimer();
-        }
-      } else {
-        isTimerActive = false;
-        resetPinCode();
-      }
-    });
-  }
 
-  void resetPinCode() {
-    if (mounted) {
-      setState(() {
-        pinCode = "";
-        timerDuration = 60;
-      });
-    }
-  }
 }

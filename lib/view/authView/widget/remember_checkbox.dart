@@ -5,12 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:restaurant/res/colors.dart';
 import 'package:restaurant/res/typography.dart';
-import 'package:restaurant/viewModel/controllers/auth_controller.dart';
-
+ 
 class RememberMeCheckbox extends StatelessWidget {
     RememberMeCheckbox({Key? key}) : super(key: key);
-
-  final auth = Get.find<AuthController>();
+ 
 RxBool isChecked=false.obs;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ RxBool isChecked=false.obs;
         SizedBox(
           width: 20.w,
           height: 20.h,
-          child: Checkbox(
+          child: Obx(() => Checkbox(
             checkColor: Colors.black,
             activeColor: AppColors.whiteColor,
             fillColor: MaterialStateColor.resolveWith((states) {
@@ -42,7 +40,7 @@ RxBool isChecked=false.obs;
             onChanged: (onChange) {
               isChecked.value = onChange!;
             },
-          ),
+          )),
         ),
         SizedBox(
           width: 12.w,
