@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1037240109968-tqtou3d8vs20lf0g7mug8upog1f5csb1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1037240109968-tqtou3d8vs20lf0g7mug8upog1f5csb1</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1037240109968-gu6dtoc2oq1to9rq0hheo8e1vgkb094t.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDRGMYUn6fcrj38YpM1meyUeLjXzzHfanA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1037240109968</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.lunchic.resturants</string>
+	<key>PROJECT_ID</key>
+	<string>mylunchicapp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mylunchicapp.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1037240109968:ios:209e016a4054ed9ecb8115</string>
+</dict>
+</plist>

@@ -1,0 +1,1 @@
+ /Users/mac/Desktop/launchic_resturant/.dart_tool/flutter_build/87dadfaced680338fd548726040dfca3/native_assets.yaml: 

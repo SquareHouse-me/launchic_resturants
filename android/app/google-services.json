@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "1037240109968",
+    "project_id": "mylunchicapp",
+    "storage_bucket": "mylunchicapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037240109968:android:797eb398bf07843ecb8115",
+        "android_client_info": {
+          "package_name": "com.lunchic.customers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037240109968-qmo4iaa9s4jgg8gesci8kqsl70f0r0b3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lunchic.customers",
+            "certificate_hash": "0eccc2a8bf71aadf5a9132b4413f47bca37cdb9b"
+          }
+        },
+        {
+          "client_id": "1037240109968-6scmf593sq4dmvbu8fn5r8mqgt4onj02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiA6qTnIHqKwqZdXrXaSb6teqRYAR2V4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037240109968-6scmf593sq4dmvbu8fn5r8mqgt4onj02.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037240109968-h0699sp31n4ouaje8717p4t4ammhmd38.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lunchic.customers"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037240109968:android:2bdf52e98f8d160fcb8115",
+        "android_client_info": {
+          "package_name": "com.lunchic.resturants"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037240109968-6scmf593sq4dmvbu8fn5r8mqgt4onj02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiA6qTnIHqKwqZdXrXaSb6teqRYAR2V4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037240109968-6scmf593sq4dmvbu8fn5r8mqgt4onj02.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037240109968-h0699sp31n4ouaje8717p4t4ammhmd38.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lunchic.customers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
