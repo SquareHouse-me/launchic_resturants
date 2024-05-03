@@ -40,9 +40,10 @@ class AppIcons {
   static String homeOutline = 'assets/icons/homeOutline.svg';
   static String profileFill = 'assets/icons/profileFill.svg';
   static String profileOutline = 'assets/icons/profileOutline.svg';
- static String unAuthorized='assets/icons/unAuthuriezed.svg';
+  static String unAuthorized = 'assets/icons/unAuthuriezed.svg';
   static String heartOutline = 'assets/icons/heartOutline.svg';
   static String heartFill = 'assets/icons/heartFill.svg';
   static String logo = 'assets/icons/logo.svg';
   static String PhoneIcon = 'assets/icons/PhoneIcon.svg';
+  static String phone = 'assets/icons/phone.svg';
 }
