@@ -1,12 +1,12 @@
 import 'dart:developer';
 
- 
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/cupertino.dart';
+ 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+ 
 import 'package:restaurant/generalWidgets/primary_button.dart';
 import 'package:restaurant/generalWidgets/primarytextfield.dart';
 import 'package:restaurant/res/colors.dart';
@@ -29,12 +29,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  String iconPassword = AppIcons.eyeIcons;
-  String iconCPassword = AppIcons.eyeIcons;
-  bool obscurePassword = true;
-  bool obscureCPassword = true;
-  String countryCode = '';
-  String countryEmoji = '';
+  RxString iconPassword = AppIcons.eyeIcons.obs;
+  RxString iconCPassword = AppIcons.eyeIcons.obs;
+  RxBool obscurePassword = true.obs;
+  RxBool obscureCPassword = true.obs;
 
   final authController = Get.find<AuthController>();
 
@@ -107,64 +105,64 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      PrimaryTextField(onTapOutside: (p0) {
-          FocusManager.instance.primaryFocus!.unfocus();
-        },
-                        styleColor: AppColors.blackColor,
-                        hintColor: AppColors.blackColor,
-                        enabledBorder: AppColors.lightGreyColor,
-                        focusedBorder: AppColors.blackColor,
-                        textInputAction: TextInputAction.next,
-                        controller: passwordController,
-                        hintText: 'passwordFieldText'.tr,
-                        obscureText: obscurePassword,
-                        keyboardType: TextInputType.text,
-                        prefixIcon: FadeIn(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SvgPicture.asset(
-                              AppIcons.lockIcons,
-                              width: 12.w,
-                              height: 12.h,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ),
-                        suffixIcon: InkWell(
-                          onTap: () {
-                            setState(() {
-                              obscurePassword = !obscurePassword;
-      
-                              if (obscurePassword) {
-                                iconPassword = AppIcons.eyeIcons;
-                              } else {
-                                iconPassword = AppIcons.eyeOpenIcon;
-                              }
-                            });
-                          },
-                          child: FadeIn(
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: SvgPicture.asset(
-                                iconPassword,
-                                width: 12.w,
-                                height: 12.h,
-                                color: AppColors.blackColor,
+                      Obx(() => PrimaryTextField(
+                            onTapOutside: (p0) {
+                              FocusManager.instance.primaryFocus!.unfocus();
+                            },
+                            styleColor: AppColors.blackColor,
+                            hintColor: AppColors.blackColor,
+                            enabledBorder: AppColors.lightGreyColor,
+                            focusedBorder: AppColors.blackColor,
+                            textInputAction: TextInputAction.next,
+                            controller: passwordController,
+                            hintText: 'passwordFieldText'.tr,
+                            obscureText: obscurePassword.value,
+                            keyboardType: TextInputType.text,
+                            prefixIcon: FadeIn(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SvgPicture.asset(
+                                  AppIcons.lockIcons,
+                                  width: 12.w,
+                                  height: 12.h,
+                                  color: AppColors.blackColor,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        validator: (val) {
-                          if (val!.isEmpty) {
-                            return 'validatorText'.tr;
-                          }
-                          if (val.length < 8) {
-                            return 'charactersPassHintText'.tr;
-                          }
-      
-                          return null;
-                        },
-                      ),
+                            suffixIcon: InkWell(
+                                  onTap: () {
+                                    obscurePassword.value =
+                                        !obscurePassword.value;
+
+                                    if (obscurePassword.value) {
+                                      iconPassword.value = AppIcons.eyeIcons;
+                                    } else {
+                                      iconPassword.value = AppIcons.eyeOpenIcon;
+                                    }
+                                  },
+                                  child: FadeIn(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: SvgPicture.asset(
+                                        iconPassword.value,
+                                        width: 12.w,
+                                        height: 12.h,
+                                        color: AppColors.blackColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return 'validatorText'.tr;
+                              }
+                              if (val.length < 8) {
+                                return 'charactersPassHintText'.tr;
+                              }
+
+                              return null;
+                            },
+                          )),
                       FadeIn(
                         child: Text(
                           'passwordConfirmFieldText'.tr,
@@ -176,66 +174,67 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      PrimaryTextField(onTapOutside: (p0) {
-          FocusManager.instance.primaryFocus!.unfocus();
-        },
-                        hintColor: AppColors.blackColor,
-                        enabledBorder: AppColors.lightGreyColor,
-                        focusedBorder: AppColors.blackColor,
-                        textInputAction: TextInputAction.next,
-                        controller: passwordConfirmController,
-                        styleColor: AppColors.blackColor,
-                        hintText: 'passwordConfirmFieldText'.tr,
-                        obscureText: obscureCPassword,
-                        keyboardType: TextInputType.text,
-                        prefixIcon: FadeIn(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SvgPicture.asset(
-                              AppIcons.lockIcons,
-                              width: 12.w,
-                              height: 12.h,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ),
-                        suffixIcon: InkWell(
-                          onTap: () {
-                            setState(() {
-                              obscureCPassword = !obscureCPassword;
-      
-                              if (obscureCPassword) {
-                                iconCPassword = AppIcons.eyeIcons;
-                              } else {
-                                iconCPassword = AppIcons.eyeOpenIcon;
-                              }
-                            });
-                          },
-                          child: FadeIn(
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: SvgPicture.asset(
-                                iconCPassword,
-                                width: 12.w,
-                                height: 12.h,
-                                color: AppColors.blackColor,
+                      Obx(() => PrimaryTextField(
+                            onTapOutside: (p0) {
+                              FocusManager.instance.primaryFocus!.unfocus();
+                            },
+                            hintColor: AppColors.blackColor,
+                            enabledBorder: AppColors.lightGreyColor,
+                            focusedBorder: AppColors.blackColor,
+                            textInputAction: TextInputAction.next,
+                            controller: passwordConfirmController,
+                            styleColor: AppColors.blackColor,
+                            hintText: 'passwordConfirmFieldText'.tr,
+                            obscureText: obscureCPassword.value,
+                            keyboardType: TextInputType.text,
+                            prefixIcon: FadeIn(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SvgPicture.asset(
+                                  AppIcons.lockIcons,
+                                  width: 12.w,
+                                  height: 12.h,
+                                  color: AppColors.blackColor,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        validator: (val) {
-                          if (val!.isEmpty) {
-                            return 'validatorText'.tr;
-                          }
-                          if (val.length < 8) {
-                            return 'charactersPassHintText'.tr;
-                          }
-                          if (passwordController.text != val) {
-                            return 'passwordCheck'.tr;
-                          }
-                          return null;
-                        },
-                      ),
+                            suffixIcon: InkWell(
+                                  onTap: () {
+                                    obscureCPassword.value =
+                                        !obscureCPassword.value;
+
+                                    if (obscureCPassword.value) {
+                                      iconCPassword.value = AppIcons.eyeIcons;
+                                    } else {
+                                      iconCPassword.value =
+                                          AppIcons.eyeOpenIcon;
+                                    }
+                                  },
+                                  child: FadeIn(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: SvgPicture.asset(
+                                        iconCPassword.value,
+                                        width: 12.w,
+                                        height: 12.h,
+                                        color: AppColors.blackColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return 'validatorText'.tr;
+                              }
+                              if (val.length < 8) {
+                                return 'charactersPassHintText'.tr;
+                              }
+                              if (passwordController.text != val) {
+                                return 'passwordCheck'.tr;
+                              }
+                              return null;
+                            },
+                          )),
                       SizedBox(
                         height: 12.h,
                       ),
@@ -265,19 +264,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                       height: 20.h,
                                       width: 20.w,
                                       child: Center(
-                                  child: CircularProgressIndicator(
-                                    backgroundColor: Colors.transparent,
-                                    strokeWidth:
-                                        2.0, // Adjust the thickness of the indicator
-      
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        AppColors.whiteColor),
-                                  ),
-                                ),
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.transparent,
+                                          strokeWidth:
+                                              2.0, // Adjust the thickness of the indicator
+
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  AppColors.whiteColor),
+                                        ),
+                                      ),
                                     )
                                   : Text(
                                       'update'.tr,
-                                      style: CustomStyle.textSemiBold12.copyWith(
+                                      style:
+                                          CustomStyle.textSemiBold12.copyWith(
                                         color: AppColors.whiteColor,
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,

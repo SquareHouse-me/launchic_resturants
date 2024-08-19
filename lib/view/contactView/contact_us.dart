@@ -31,8 +31,8 @@ class _ContactUsState extends State<ContactUs> {
   final emailController = TextEditingController();
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
-  String countryCode = '965';
-  String countryEmoji = '🇰🇼';
+  RxString countryCode = '965'.obs;
+  RxString countryEmoji = '🇰🇼'.obs;
   bool isEnable = false;
   final _formKey = GlobalKey<FormState>();
   final HomeController homeController = Get.find<HomeController>();
@@ -237,70 +237,68 @@ class _ContactUsState extends State<ContactUs> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    CountryCodeWidget(
-                      hintColor: AppColors.darkGreyColor,
-                      titleColor: AppColors.blackColor,
-                      defaultTitleColor: AppColors.blackColor,
-                      styleColor: AppColors.blackColor,
-                      enabledBorder: AppColors.lightGreyColor,
-                      focusedBorder: AppColors.blackColor,
-                      iconData: AppColors.blackColor,
-                      controller: phoneController,
-                      hintText: 'phoneHintText'.tr,
-                      obscureText: false,
-                      keyboardType: TextInputType.phone,
-                      onTap: () {
-                        showCountryPicker(
-                          context: context,
-                          //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
-                          exclude: <String>['KN', 'MF'],
-                          favorite: <String>['SE'],
-                          //Optional. Shows phone code before the country name.
-                          showPhoneCode: true,
-                          onSelect: (Country country) {
-                            setState(() {
-                              countryCode = country.phoneCode;
-                              countryEmoji = country.flagEmoji;
-                            });
-                          },
-                          countryListTheme: CountryListThemeData(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(40.0),
-                              topRight: Radius.circular(40.0),
-                            ),
-                            // Optional. Styles the search field.
-                            inputDecoration: InputDecoration(
-                              labelText: 'searchLabelText'.tr,
-                              hintText: 'searchHintText'.tr,
-                              prefixIcon: const Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color:
-                                      const Color(0xFF8C98A8).withOpacity(0.2),
+                    Obx(() => CountryCodeWidget(
+                          hintColor: AppColors.darkGreyColor,
+                          titleColor: AppColors.blackColor,
+                          defaultTitleColor: AppColors.blackColor,
+                          styleColor: AppColors.blackColor,
+                          enabledBorder: AppColors.lightGreyColor,
+                          focusedBorder: AppColors.blackColor,
+                          iconData: AppColors.blackColor,
+                          controller: phoneController,
+                          hintText: 'phoneHintText'.tr,
+                          obscureText: false,
+                          keyboardType: TextInputType.phone,
+                          onTap: () {
+                            showCountryPicker(
+                              context: context,
+                              //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+                              exclude: <String>['KN', 'MF'],
+                              favorite: <String>['SE'],
+                              //Optional. Shows phone code before the country name.
+                              showPhoneCode: true,
+                              onSelect: (Country country) {
+                                countryCode.value = country.phoneCode;
+                                countryEmoji.value = country.flagEmoji;
+                              },
+                              countryListTheme: CountryListThemeData(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(40.0),
+                                  topRight: Radius.circular(40.0),
+                                ),
+                                // Optional. Styles the search field.
+                                inputDecoration: InputDecoration(
+                                  labelText: 'searchLabelText'.tr,
+                                  hintText: 'searchHintText'.tr,
+                                  prefixIcon: const Icon(Icons.search),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: const Color(0xFF8C98A8)
+                                          .withOpacity(0.2),
+                                    ),
+                                  ),
+                                ),
+                                // Optional. Styles the text in the search field
+                                searchTextStyle: const TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 18,
                                 ),
                               ),
-                            ),
-                            // Optional. Styles the text in the search field
-                            searchTextStyle: const TextStyle(
-                              color: Colors.blue,
-                              fontSize: 18,
-                            ),
-                          ),
-                        );
-                      },
-                      countryCode: countryCode,
-                      countryEmoji: countryEmoji,
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return 'validatorText'.tr;
-                        } else if (val.length > 8) {
-                          return 'phoneValidatorText'.tr;
-                        } else if (val.length < 8) {
-                          return 'phoneShortValidatorText'.tr;
-                        }
-                        return null;
-                      },
-                    ),
+                            );
+                          },
+                          countryCode: countryCode.value,
+                          countryEmoji: countryEmoji.value,
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'validatorText'.tr;
+                            } else if (val.length > 8) {
+                              return 'phoneValidatorText'.tr;
+                            } else if (val.length < 8) {
+                              return 'phoneShortValidatorText'.tr;
+                            }
+                            return null;
+                          },
+                        )),
                     FadeIn(
                       child: Text(
                         'emailFieldText'.tr,
