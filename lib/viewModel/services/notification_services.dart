@@ -94,8 +94,7 @@ class NotificationServices {
         requestAlertPermission: true,
         requestBadgePermission: true,
         requestSoundPermission: true,
-        onDidReceiveLocalNotification:
-            (int id, String? title, String? body, String? payload) async {});
+        );
 
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
