@@ -1,4 +1,4 @@
-package com.lunchic.restaurant
+package com.lunchic.resturant
 
 import io.flutter.embedding.android.FlutterActivity
 

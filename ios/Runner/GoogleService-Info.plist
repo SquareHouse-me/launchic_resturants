@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1037240109968-tqtou3d8vs20lf0g7mug8upog1f5csb1.apps.googleusercontent.com</string>
+	<string>852110642735-dk2up7lkgfkpcjv84o3jc0jmb2d97o1a.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1037240109968-tqtou3d8vs20lf0g7mug8upog1f5csb1</string>
+	<string>com.googleusercontent.apps.852110642735-dk2up7lkgfkpcjv84o3jc0jmb2d97o1a</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>1037240109968-gu6dtoc2oq1to9rq0hheo8e1vgkb094t.apps.googleusercontent.com</string>
+	<string>852110642735-bqhn03f93bkink242vifm0pjpps34i5l.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDRGMYUn6fcrj38YpM1meyUeLjXzzHfanA</string>
+	<string>AIzaSyBeLCChrIWubLzkDQkHEjrfy8mTShJNZ3Q</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1037240109968</string>
+	<string>852110642735</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.lunchic.resturants</string>
+	<string>com.lunchic.resturant</string>
 	<key>PROJECT_ID</key>
-	<string>mylunchicapp</string>
+	<string>lunchicapp-8ce3e</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mylunchicapp.appspot.com</string>
+	<string>lunchicapp-8ce3e.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1037240109968:ios:209e016a4054ed9ecb8115</string>
+	<string>1:852110642735:ios:8ef4f97d360bedbf1700da</string>
 </dict>
 </plist>
