@@ -2,7 +2,7 @@
     
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-      android:label="Lunchic Restaurant"
+      android:label="Restaurant"
       android:name="${applicationName}" 
       android:icon="@mipmap/launcher_icon">
     <meta-data 

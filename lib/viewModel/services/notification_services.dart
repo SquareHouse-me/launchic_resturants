@@ -14,35 +14,64 @@ class NotificationServices {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin localNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  void requestNotificationPermission() async {
- 
+
+  Future<void> requestNotificationPermissionIOS() async {
+    debugPrint('iOS Notification Permission Check');
+
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       announcement: true,
       badge: true,
-      carPlay: true,
-      criticalAlert: true,
-      provisional: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
       sound: true,
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      if (kDebugMode) {
-        log('user granted permission');
-      }
-        await Permission.notification.request();
+      debugPrint("🔔 Notification Permission Granted");
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
-      if (kDebugMode) {
-        log('user granted provisional permission');
-      }  await Permission.notification.request();
-    } else { openAppSettings();
-      if (kDebugMode) {
-        log('user denied permission');
-      }
-    } 
+      debugPrint("🔔 Notification Permission Granted (Provisional)");
+    } else {
+      debugPrint("❌ Notification Permission Denied");
+      openAppSettings(); // Open settings if permanently denied
+    }
   }
-  
+
+  void requestNotificationPermission() async {
+    debugPrint('Notification Their');
+
+    if (Platform.isIOS) {
+      debugPrint('IOS>>>>>>>>>>>>>>>>');
+      requestNotificationPermissionIOS();
+    } else {
+      debugPrint('Permission request');
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+      NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        announcement: true,
+        badge: true,
+        carPlay: true,
+        criticalAlert: true,
+        provisional: true,
+        sound: true,
+      );
+
+      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+        print('User granted permission');
+      } else if (settings.authorizationStatus ==
+          AuthorizationStatus.provisional) {
+        print('User granted provisional permission');
+      } else {
+        print('User declined or has not accepted permission');
+      }
+    }
+  }
+
   Future<String> getDeviceToken() async {
     String? token = await messaging.getToken();
     log('$token getDeviceToken');
